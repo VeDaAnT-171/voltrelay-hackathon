@@ -1,0 +1,622 @@
+{
+ "raw_rows": {
+  "swap_events": 3877013,
+  "station_hourly_status": 1487712,
+  "riders": 20000,
+  "batteries": 6500,
+  "support_tickets": 44000,
+  "stations": 152,
+  "city_daily_context": 3282,
+  "fleet_partners": 12
+ },
+ "test_station_rows": {
+  "stations": 2,
+  "swap_events": 62031,
+  "station_hourly_status": 26256,
+  "support_tickets": 535
+ },
+ "firmware_rows_fixed": 139490,
+ "dedup_removed": 5720,
+ "dedup_rate_by_mode": {
+  "offline_batch": 0.149,
+  "realtime": 0.147
+ },
+ "dirty_city_riders": 585,
+ "clean_rows": 3809346,
+ "completed_swaps": 3581061,
+ "failed_attempts": 228285,
+ "overall_failure_rate_pct": 5.99,
+ "telemetry_missing_hours": 9384,
+ "csat_naive": 3.557,
+ "csat_stratified": 3.561,
+ "csat_resp_rate_fast_vs_slow": [
+  43.7,
+  28.3
+ ],
+ "hidden_battery_tickets": 6020,
+ "hidden_billing_tickets": 0,
+ "hygiene_table": [
+  {
+   "Rule": "1. Exclude test stations",
+   "Table": "stations",
+   "Rows affected": "2",
+   "Action": "rows removed"
+  },
+  {
+   "Rule": "1. Exclude test stations",
+   "Table": "swap_events",
+   "Rows affected": "62,031",
+   "Action": "rows removed"
+  },
+  {
+   "Rule": "1. Exclude test stations",
+   "Table": "station_hourly_status",
+   "Rows affected": "26,256",
+   "Action": "rows removed"
+  },
+  {
+   "Rule": "1. Exclude test stations",
+   "Table": "support_tickets",
+   "Rows affected": "535",
+   "Action": "rows removed"
+  },
+  {
+   "Rule": "2. Firmware v3.2.0 ts +5h30m",
+   "Table": "swap_events",
+   "Rows affected": "139,490",
+   "Action": "timestamps corrected"
+  },
+  {
+   "Rule": "3. Retry bursts \u2264180s (keep first)",
+   "Table": "swap_events",
+   "Rows affected": "5,720",
+   "Action": "rows removed (strict battery-key found 0; see note)"
+  },
+  {
+   "Rule": "4. home_city standardised (21 spellings \u2192 6 cities)",
+   "Table": "riders",
+   "Rows affected": "585",
+   "Action": "values rewritten"
+  },
+  {
+   "Rule": "5a. SoC/SoH capped at 100",
+   "Table": "swap_events",
+   "Rows affected": "9,749",
+   "Action": "values capped"
+  },
+  {
+   "Rule": "5b. km \u22640.5 or >150 \u2192 NULL (odometer resets/drift)",
+   "Table": "swap_events",
+   "Rows affected": "15,509",
+   "Action": "values nulled"
+  },
+  {
+   "Rule": "6. Completed vs failed split",
+   "Table": "swap_events",
+   "Rows affected": "228,285",
+   "Action": "failed/abandoned attempts flagged (5.99%)"
+  },
+  {
+   "Rule": "7. Telemetry 'missing' hours excluded from inventory math",
+   "Table": "station_hourly_status",
+   "Rows affected": "9,384",
+   "Action": "rows excluded (all at 'poor' tier)"
+  },
+  {
+   "Rule": "8a. Duplicate tickets removed",
+   "Table": "support_tickets",
+   "Rows affected": "937",
+   "Action": "rows removed"
+  },
+  {
+   "Rule": "8b. CSAT MNAR: slowest quartile responds at 28.3% vs 43.7%",
+   "Table": "support_tickets",
+   "Rows affected": "37,424",
+   "Action": "stratified CSAT computed"
+  },
+  {
+   "Rule": "9. NLP re-classification of rider comments",
+   "Table": "support_tickets",
+   "Rows affected": "6,568",
+   "Action": "relabelled (6,020 hidden battery/range + 0 hidden billing)"
+  }
+ ],
+ "avg_wear_inr_per_swap": 36.83,
+ "wear_naive_rectified": 185.5,
+ "wear_naive_unrectified": -45.1,
+ "fleet_value_consumed_cr": 13.19,
+ "m_completed": {
+  "2024-01": 103404,
+  "2024-02": 104337,
+  "2024-03": 116033,
+  "2024-04": 119999,
+  "2024-05": 125332,
+  "2024-06": 130725,
+  "2024-07": 148417,
+  "2024-08": 161518,
+  "2024-09": 183818,
+  "2024-10": 216209,
+  "2024-11": 224488,
+  "2024-12": 248563,
+  "2025-01": 265403,
+  "2025-02": 252314,
+  "2025-03": 286113,
+  "2025-04": 288713,
+  "2025-05": 303110,
+  "2025-06": 302565
+ },
+ "m_revenue": {
+  "2024-01": 6192850.4,
+  "2024-02": 6250661.0,
+  "2024-03": 6946067.4,
+  "2024-04": 7197271.6,
+  "2024-05": 7506231.0,
+  "2024-06": 7818405.8,
+  "2024-07": 9654681.8,
+  "2024-08": 10498845.4,
+  "2024-09": 11888965.9,
+  "2024-10": 14327082.35,
+  "2024-11": 14505595.7,
+  "2024-12": 16068621.05,
+  "2025-01": 17147438.3,
+  "2025-02": 16310599.3,
+  "2025-03": 18500019.45,
+  "2025-04": 18706283.2,
+  "2025-05": 19683536.4,
+  "2025-06": 19652482.0
+ },
+ "m_fail_pct": {
+  "2024-01": 4.41,
+  "2024-02": 4.43,
+  "2024-03": 4.4,
+  "2024-04": 6.89,
+  "2024-05": 12.4,
+  "2024-06": 10.29,
+  "2024-07": 4.34,
+  "2024-08": 4.27,
+  "2024-09": 4.38,
+  "2024-10": 4.38,
+  "2024-11": 4.25,
+  "2024-12": 4.4,
+  "2025-01": 4.3,
+  "2025-02": 4.29,
+  "2025-03": 4.38,
+  "2025-04": 6.35,
+  "2025-05": 9.98,
+  "2025-06": 8.61
+ },
+ "m_cm_per_swap": {
+  "2024-01": 7.67,
+  "2024-02": 7.83,
+  "2024-03": 7.94,
+  "2024-04": 8.18,
+  "2024-05": 8.45,
+  "2024-06": 8.74,
+  "2024-07": 14.09,
+  "2024-08": 14.3,
+  "2024-09": 7.22,
+  "2024-10": 6.45,
+  "2024-11": 5.09,
+  "2024-12": 5.28,
+  "2025-01": 5.67,
+  "2025-02": 6.06,
+  "2025-03": 6.55,
+  "2025-04": 7.1,
+  "2025-05": 7.85,
+  "2025-06": 8.37
+ },
+ "m_op_per_swap": {
+  "2024-01": -12.73,
+  "2024-02": -12.39,
+  "2024-03": -10.24,
+  "2024-04": -9.4,
+  "2024-05": -8.38,
+  "2024-06": -7.4,
+  "2024-07": -0.12,
+  "2024-08": -0.38,
+  "2024-09": -6.65,
+  "2024-10": -6.71,
+  "2024-11": -7.59,
+  "2024-12": -6.17,
+  "2025-01": -5.06,
+  "2025-02": -6.04,
+  "2025-03": -5.03,
+  "2025-04": -5.22,
+  "2025-05": -3.89,
+  "2025-06": -3.34
+ },
+ "m_op_profit": {
+  "2024-01": -1316125.2,
+  "2024-02": -1292621.6,
+  "2024-03": -1187925.57,
+  "2024-04": -1127501.71,
+  "2024-05": -1050149.48,
+  "2024-06": -966892.41,
+  "2024-07": -17899.05,
+  "2024-08": -61339.56,
+  "2024-09": -1221779.81,
+  "2024-10": -1451783.96,
+  "2024-11": -1704860.18,
+  "2024-12": -1534587.25,
+  "2025-01": -1342184.6,
+  "2025-02": -1524832.32,
+  "2025-03": -1440049.16,
+  "2025-04": -1508027.56,
+  "2025-05": -1178953.37,
+  "2025-06": -1009157.15
+ },
+ "cm_q4_24": 5.61,
+ "cm_q2_25": 7.77,
+ "cm_h1_24": 8.13,
+ "fail_share_top15pct_stations": 32.8,
+ "fail_share_top20pct_stations": 41.8,
+ "n_stations": 150,
+ "slots_3w_dist": {
+  "0": 83,
+  "4": 32,
+  "6": 35
+ },
+ "fail_pct_3w_peak": 10.9,
+ "fail_pct_2w_peak": 5.8,
+ "chg_min_heat": [
+  74.71,
+  101.72
+ ],
+ "quar_heat": [
+  0.33,
+  2.25
+ ],
+ "outage_wet": [
+  3.8,
+  22.8
+ ],
+ "stockout_pct_hot": [
+  3.12,
+  10.32
+ ],
+ "stockout_pct_wet": [
+  3.5,
+  2.99
+ ],
+ "gen_table": [
+  {
+   "gen": "Gen1",
+   "stations": 51,
+   "swaps_per_stn_day": 60.6,
+   "fail_pct": 7.24,
+   "avg_charge_min": 91.8,
+   "cab_minus_ambient_c": 6.6,
+   "fixed_pm": 22968.0
+  },
+  {
+   "gen": "Gen2",
+   "stations": 62,
+   "swaps_per_stn_day": 55.4,
+   "fail_pct": 4.85,
+   "avg_charge_min": 64.3,
+   "cab_minus_ambient_c": 6.6,
+   "fixed_pm": 24256.0
+  },
+  {
+   "gen": "Gen3",
+   "stations": 37,
+   "swaps_per_stn_day": 70.6,
+   "fail_pct": 4.85,
+   "avg_charge_min": 42.2,
+   "cab_minus_ambient_c": 6.6,
+   "fixed_pm": 23894.0
+  }
+ ],
+ "wave_spd": {
+  "Launch|commercial_hub": 63.8,
+  "Launch|highway_fuel_pump": 43.4,
+  "Launch|market": 59.2,
+  "Launch|residential": 48.4,
+  "Launch|tech_park": 41.3,
+  "Launch|transit_hub": 47.7,
+  "Wave1_2024H2|commercial_hub": 131.4,
+  "Wave1_2024H2|highway_fuel_pump": 55.0,
+  "Wave1_2024H2|residential": 51.4,
+  "Wave1_2024H2|tech_park": 68.1,
+  "Wave1_2024H2|transit_hub": 50.5,
+  "Wave2_2025H1|commercial_hub": 87.8,
+  "Wave2_2025H1|highway_fuel_pump": 87.8,
+  "Wave2_2025H1|market": 77.5,
+  "Wave2_2025H1|residential": 46.9,
+  "Wave2_2025H1|tech_park": 69.9,
+  "Wave2_2025H1|transit_hub": 37.2
+ },
+ "wave_rev_to_fixed": {
+  "Launch|commercial_hub": 5.6,
+  "Launch|highway_fuel_pump": 5.28,
+  "Launch|market": 5.41,
+  "Launch|residential": 3.5,
+  "Launch|tech_park": 4.46,
+  "Launch|transit_hub": 3.68,
+  "Wave1_2024H2|commercial_hub": 9.85,
+  "Wave1_2024H2|highway_fuel_pump": 4.82,
+  "Wave1_2024H2|residential": 4.6,
+  "Wave1_2024H2|tech_park": 6.64,
+  "Wave1_2024H2|transit_hub": 2.67,
+  "Wave2_2025H1|commercial_hub": 8.33,
+  "Wave2_2025H1|highway_fuel_pump": 8.0,
+  "Wave2_2025H1|market": 6.81,
+  "Wave2_2025H1|residential": 4.53,
+  "Wave2_2025H1|tech_park": 4.44,
+  "Wave2_2025H1|transit_hub": 2.98
+ },
+ "wave_counts": {
+  "Launch|commercial_hub": 39,
+  "Launch|highway_fuel_pump": 2,
+  "Launch|market": 33,
+  "Launch|residential": 6,
+  "Launch|tech_park": 5,
+  "Launch|transit_hub": 5,
+  "Wave1_2024H2|commercial_hub": 1,
+  "Wave1_2024H2|highway_fuel_pump": 14,
+  "Wave1_2024H2|residential": 13,
+  "Wave1_2024H2|tech_park": 1,
+  "Wave1_2024H2|transit_hub": 1,
+  "Wave2_2025H1|commercial_hub": 4,
+  "Wave2_2025H1|highway_fuel_pump": 5,
+  "Wave2_2025H1|market": 14,
+  "Wave2_2025H1|residential": 2,
+  "Wave2_2025H1|tech_park": 1,
+  "Wave2_2025H1|transit_hub": 4
+ },
+ "n_competitor_exposed": 10,
+ "competitor_idx_post": {
+  "competitor <1.5 km (from 15 Jan 25)": 94.4,
+  "no competitor": 98.2
+ },
+ "pre_commission_readings": 983481,
+ "kyron_writeoff_inr": 47897018.0,
+ "kyron_packs_retired": 1438,
+ "kyron_retired_detail": [
+  {
+   "manufacturing_lot": "KY-2407",
+   "pack_type": "2W_2.1kWh",
+   "packs": 452,
+   "soh_now": 60.5,
+   "capex": 14459776.0
+  },
+  {
+   "manufacturing_lot": "KY-2407",
+   "pack_type": "3W_4.8kWh",
+   "packs": 24,
+   "soh_now": 68.4,
+   "capex": 1628001.0
+  },
+  {
+   "manufacturing_lot": "KY-2408",
+   "pack_type": "2W_2.1kWh",
+   "packs": 471,
+   "soh_now": 60.5,
+   "capex": 15067146.0
+  },
+  {
+   "manufacturing_lot": "KY-2408",
+   "pack_type": "3W_4.8kWh",
+   "packs": 18,
+   "soh_now": 68.4,
+   "capex": 1215660.0
+  },
+  {
+   "manufacturing_lot": "KY-2409",
+   "pack_type": "2W_2.1kWh",
+   "packs": 462,
+   "soh_now": 60.6,
+   "capex": 14767711.0
+  },
+  {
+   "manufacturing_lot": "KY-2409",
+   "pack_type": "3W_4.8kWh",
+   "packs": 11,
+   "soh_now": 68.5,
+   "capex": 758724.0
+  }
+ ],
+ "kyron_writeoff_pct_fleet": 19.7,
+ "range_km_soh95": 67.8,
+ "range_km_soh72": 38.1,
+ "range_loss_pct": 43.8,
+ "price_change_date": "2024-07-01",
+ "price_hike_spr_change_pct": {
+  "partner_billed": 5.1,
+  "pay_as_you_go": 6.7,
+  "prepaid_pack": 6.1
+ },
+ "did_volume_sps": -320.9,
+ "did_peak_share_pp": -2.48,
+ "exempt_peak_swaps_pilot": 116116,
+ "exempt_leakage_inr": 1741740,
+ "peak_share_by_billable": {
+  "N": 63.99,
+  "Y": 40.46
+ },
+ "did_billing_disputes_pp": -3.23,
+ "partner_table": [
+  {
+   "partner_id": "FP-01",
+   "partner_name": "FeastFly",
+   "swaps": 515420,
+   "rev": 31969689.5,
+   "cm_per_swap": 8.56,
+   "cm_after_wc": 7.95,
+   "peak_share": 61.92,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-03",
+   "partner_name": "ZipDrop",
+   "swaps": 547921,
+   "rev": 28532505.2,
+   "cm_per_swap": -2.49,
+   "cm_after_wc": -3.26,
+   "peak_share": 59.83,
+   "peak_surcharge_billable": "N",
+   "payment_terms_days": 45
+  },
+  {
+   "partner_id": "FP-02",
+   "partner_name": "ParcelNest",
+   "swaps": 295913,
+   "rev": 16723913.75,
+   "cm_per_swap": 2.97,
+   "cm_after_wc": 2.41,
+   "peak_share": 18.61,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-05",
+   "partner_name": "Swiggle Go",
+   "swaps": 237217,
+   "rev": 14068470.1,
+   "cm_per_swap": 5.67,
+   "cm_after_wc": 5.08,
+   "peak_share": 62.41,
+   "peak_surcharge_billable": "N",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-04",
+   "partner_name": "CargoTuk",
+   "swaps": 131231,
+   "rev": 13052304.8,
+   "cm_per_swap": -5.54,
+   "cm_after_wc": -6.52,
+   "peak_share": 15.68,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-07",
+   "partner_name": "QuickCart",
+   "swaps": 127678,
+   "rev": 7916923.95,
+   "cm_per_swap": 9.58,
+   "cm_after_wc": 8.96,
+   "peak_share": 59.63,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-06",
+   "partner_name": "RideMitra",
+   "swaps": 119277,
+   "rev": 7480736.2,
+   "cm_per_swap": 9.64,
+   "cm_after_wc": 9.33,
+   "peak_share": 24.36,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 15
+  },
+  {
+   "partner_id": "FP-08",
+   "partner_name": "DabbaXpress",
+   "swaps": 91865,
+   "rev": 5843495.8,
+   "cm_per_swap": 10.12,
+   "cm_after_wc": 9.49,
+   "peak_share": 61.93,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-09",
+   "partner_name": "HaulKing",
+   "swaps": 53069,
+   "rev": 5325954.4,
+   "cm_per_swap": -4.5,
+   "cm_after_wc": -5.98,
+   "peak_share": 15.69,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 45
+  },
+  {
+   "partner_id": "FP-12",
+   "partner_name": "UrbanErrand",
+   "swaps": 82216,
+   "rev": 5217968.75,
+   "cm_per_swap": 10.1,
+   "cm_after_wc": 9.78,
+   "peak_share": 24.45,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 15
+  },
+  {
+   "partner_id": "FP-11",
+   "partner_name": "LastMileHub",
+   "swaps": 80257,
+   "rev": 4873647.0,
+   "cm_per_swap": 5.83,
+   "cm_after_wc": 5.23,
+   "peak_share": 18.75,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  },
+  {
+   "partner_id": "FP-10",
+   "partner_name": "MetroMove",
+   "swaps": 81830,
+   "rev": 4826204.6,
+   "cm_per_swap": 4.66,
+   "cm_after_wc": 4.08,
+   "peak_share": 18.66,
+   "peak_surcharge_billable": "Y",
+   "payment_terms_days": 30
+  }
+ ],
+ "zipdrop_cm_before": 5.72,
+ "zipdrop_cm_after": -7.7,
+ "zipdrop_disc_pct_before": 12.0,
+ "zipdrop_disc_pct_after": 28.0,
+ "zipdrop_monthly_swaps_after": 41925,
+ "d30_first3": 85.9,
+ "d30_last3": 84.2,
+ "churn_odds_ratios": {
+  "activity volume (attempts, log)": 0.497,
+  "is 3W": 0.813,
+  "competitor within 1.5 km": 0.961,
+  "KYC verified": 0.979,
+  "PEAK surcharge exposure": 0.994,
+  "avg queue wait (min)": 1.012,
+  "price-shock cohort (PAYG, post-hike)": 1.044,
+  "degraded pack share (<72% SoH)": 1.092,
+  "partner-billed plan": 1.353,
+  "early fail/stockout rate": 1.459
+ },
+ "churn30_base_rate": 15.2,
+ "churn30_no_early_fail": 13.4,
+ "churn30_with_early_fail": 17.3,
+ "budget_matrix": [
+  {
+   "Proposal": "A. Blanket Wave-3 stations",
+   "Evidence": "Wave-2 revenue covers 8.3\u00d7 fixed cost at commercial_hub sites but only 3.0\u00d7 at transit_hub; meanwhile 42% of failures sit at 20% of existing stations \u2014 capacity, not coverage, is the constraint",
+   "Verdict": "NO as blanket \u2014 densify only the top-decile congested zones"
+  },
+  {
+   "Proposal": "B. More batteries (replace Kyron + 3W buffer)",
+   "Evidence": "\u20b94.8 Cr replaces the retired fleet; converting ~60% of 11,624 monthly stockouts recovers \u20b90.07 Cr/yr of margin (direct payback ~884 months on margin alone); stockouts also carry the single largest churn odds-ratio (1.46)",
+   "Verdict": "YES \u2014 first priority; pair with Gen-1 charger upgrades at hot hubs (91.8 vs 42.2 min charge)"
+  },
+  {
+   "Proposal": "C. Network-wide peak pricing",
+   "Evidence": "Pilot DiD shows peak share moved -2.5 pp \u2014 it's revenue, not load-shifting; surcharge-exempt B2B free-rode 116,116 peak swaps (\u20b917.4 L) in-pilot. Billable rollout \u2248 \u20b91.6 Cr/yr",
+   "Verdict": "YES after closing the exemption + funding a real off-peak rebate"
+  },
+  {
+   "Proposal": "D. Exclusive with ZipDrop",
+   "Evidence": "ZipDrop CM \u20b9-7.7/swap vs median partner \u20b95.2 \u2192 gap \u20b912.9/swap \u2248 \u20b90.65 Cr/yr; plus 45-day terms and surcharge exemption; realized discount 12.0% \u2192 28.0% (see \u00a76)",
+   "Verdict": "NO at current terms \u2014 renegotiate: off-peak volume tiers, surcharge billable, \u226430-day terms"
+  }
+ ],
+ "battery_margin_gain_annual_inr": 650293.056,
+ "battery_payback_months": 883.9,
+ "rollout_annual_inr": 15897519.0,
+ "zipdrop_gap_per_swap": 12.93,
+ "zipdrop_annual_gap_inr": 6505083.0,
+ "monthly_stockouts_2025": 11624
+}
